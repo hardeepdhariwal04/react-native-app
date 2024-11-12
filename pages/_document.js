@@ -2,11 +2,7 @@ import { Children } from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { AppRegistry } from "react-native-web";
 
-// Follows the setup for react-native-web:
-// https://necolas.github.io/react-native-web/docs/setup/#root-element
-// Plus additional React Native scroll and text parity styles for various
-// browsers.
-// Force Next-generated DOM elements to fill their parent's height
+// CSS styles for the document
 const style = `
 html, body, #__next {
   -webkit-overflow-scrolling: touch;
@@ -21,7 +17,6 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 body {
-  /* Allows you to scroll below the viewport; default value is visible */
   overflow-y: auto;
   overscroll-behavior-y: none;
   text-rendering: optimizeLegibility;
@@ -33,23 +28,29 @@ body {
 
 export default class MyDocument extends Document {
   static async getInitialProps({ renderPage }) {
+    // Register the main app component
     AppRegistry.registerComponent("main", () => Main);
     const { getStyleElement } = AppRegistry.getApplication("main");
+
+    // Render the page
     const page = await renderPage();
-    const styles = [
+    
+    // Return the page along with the styles
+    return { ...page, styles: [
       <style
         key="react-native-style"
         dangerouslySetInnerHTML={{ __html: style }}
       />,
       getStyleElement(),
-    ];
-    return { ...page, styles: Children.toArray(styles) };
+    ] };
   }
 
   render() {
     return (
       <Html style={{ height: "100%" }}>
-        <Head />
+        <Head>
+          {/* You can add any additional head elements here */}
+        </Head>
         <body style={{ height: "100%", overflow: "hidden" }}>
           <Main />
           <NextScript />
