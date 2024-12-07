@@ -3,20 +3,25 @@ const express = require("express");
 const cors = require("cors");
 const { createClient } = require("@supabase/supabase-js");
 require("dotenv").config(); // Load environment variables from .env file
-
+import { createClient } from '@supabase/supabase-js';
 // Initialize Express app
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-app.use(bodyParser.json());
+
 app.use(express.json());
+const supabase = createClient(
+  Constants.expoConfig.extra.SUPABASE_URL,
+  Constants.expoConfig.extra.SUPABASE_KEY
+);
+
 
 // Supabase client setup
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// const supabaseUrl = process.env.SUPABASE_URL;
+// const supabaseKey = process.env.SUPABASE_KEY;
+// const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Endpoint to save a translation
 app.post("192.168.90.89/api/translations", async (req, res) => {

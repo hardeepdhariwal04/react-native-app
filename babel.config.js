@@ -5,3 +5,10 @@ module.exports = function (api) {
     plugins: ["react-native-reanimated/plugin"],
   };
 };
+module.exports = {
+  presets: ['next/babel'],
+  plugins: [
+    ['react-native-web', { commonjs: true }],
+  ],
+};
+
